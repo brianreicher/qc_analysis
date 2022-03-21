@@ -1,0 +1,10 @@
+conda install matplotlib
+conda install numpy
+conda install scipy
+conda install torch
+conda install tensorflow
+conda install scikit-image
+conda install tensorboard
+conda install torchvision
+conda install pandas
+
