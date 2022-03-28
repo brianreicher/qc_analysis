@@ -15,7 +15,7 @@ class GenerateData:
 
     #Create dataset: 100,000 funcs?
     def populate(self):
-        func_df = pd.DataFrame(index = self.c.tolist())
+        func_df = pd.DataFrame(index=self.c.tolist())
         for i in self.x:
             col = []
             for j in self.c:
@@ -29,4 +29,3 @@ class GenerateData:
 def data(l):
     return GenerateData(l).populate()
 
-#%%
