@@ -1,76 +1,47 @@
-# import torch
-# import numpy as np
-# from generate_data import data
-# from torch import nn
-# from torch.utils.data import DataLoader
-#
-# device = "cuda" if torch.cuda.is_available() else "cpu"
-# print(f"Using {device} device")
-#
-# class NeuralNetwork(nn.Module):
-#     def __init__(self):
-#         super(NeuralNetwork, self).__init__()
-#         self.linear_relu_stack = nn.Sequential(
-#             nn.Flatten(),
-#             nn.Linear(len(data.columns), 100),
-#             nn.ReLU(),
-#             nn.Linear(100, 100),
-#             nn.ReLU(),
-#             nn.Linear(30, 3),
-#         )
-#
-#     def forward(self, x):
-#         logits = self.linear_relu_stack(x)
-#         return logits
-#
-# model = NeuralNetwork().to(device)
-#
-# #Drop indicies for labels
-# drop_vals = np.arange(len(data.columns)-1).tolist()
-# for i in drop_vals:
-#     drop_vals[i] = str(drop_vals[i])
-#
-# training_data = data.drop(columns = "labels").ToTensor()
-# test_data = data.drop(columns= drop_vals).ToTensor()
-#
-# train_dataloader = DataLoader(training_data, batch_size=64)
-# test_dataloader = DataLoader(test_data, batch_size=64)
-#
-# learning_rate = 1e-3
-# batch_size = 64
-# epochs = 5
-#
-# loss_fn = nn.CrossEntropyLoss()
-# optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
-#
-# def train_loop(dataloader, model, loss_fn, optimizer):
-#     size = len(dataloader.dataset)
-#     for batch, (X, y) in enumerate(dataloader):
-#         # Compute prediction and loss
-#         pred = model(X)
-#         loss = loss_fn(pred, y)
-#
-#         # Backpropagation
-#         optimizer.zero_grad()
-#         loss.backward()
-#         optimizer.step()
-#
-#         if batch % 100 == 0:
-#             loss, current = loss.item(), batch * len(X)
-#             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-#
-#
-# def test_loop(dataloader, model, loss_fn):
-#     size = len(dataloader.dataset)
-#     num_batches = len(dataloader)
-#     test_loss, correct = 0, 0
-#
-#     with torch.no_grad():
-#         for X, y in dataloader:
-#             pred = model(X)
-#             test_loss += loss_fn(pred, y).item()
-#             correct += (pred.argmax(1) == y).type(torch.float).sum().item()
-#
-#     test_loss /= num_batches
-#     correct /= size
-#     print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+from operator import mod
+from re import X
+import numpy as np
+import pandas as pd
+import tensorflow
+from tensorflow import keras
+from keras.utils.vis_utils import plot_model
+from sklearn.model_selection import train_test_split
+from generate_data import data
+
+
+# - Consider the exponential function f(x)=exp(-x/c), with x=0,1,2,….,L-1 integers
+# - Generate many training datasets {f(0,f(1),f(2),…f(L-1)} for different values of c
+# - Now we solve the inverse problem: input c and see if you get the exponential.
+
+# Initate Dataloader - pick l-value of choice
+dataloader = data(7)
+drop_vals = np.arange(len(dataloader.columns)-1).tolist()
+x_train, x_valid, y_train, y_valid = train_test_split(dataloader.drop(columns='c'), 
+                                                        dataloader.drop(columns = drop_vals), 
+                                                        test_size=0.2, random_state=0)
+
+# Initate model
+def load_model():
+    model = keras.models.Sequential()
+    model.add(keras.layers.Dense(1000, activation="relu"))
+    model.add(keras.layers.Dense(300, activation="relu"))
+    model.add(keras.layers.Dense(100, activation="relu"))
+    model.add(keras.layers.Dense(len(dataloader.columns)-1, activation="softmax"))
+    print(model.summary())
+    keras.utils.plot_model(model, "model_graph.png", show_shapes=True)
+    return model
+
+model = load_model()
+
+keras.backend.clear_session()
+np.random.seed(42)
+tensorflow.random.set_seed(42)
+model.compile(loss="sparse_categorical_crossentropy",
+            optimizer="sgd",
+            metrics=["accuracy"])
+history = model.fit(x_train, y_train,
+        batch_size=128, epochs=30,
+        verbose=1,
+        validation_data=(x_valid, y_valid))
+
+model.evaluate(x_valid, y_valid)

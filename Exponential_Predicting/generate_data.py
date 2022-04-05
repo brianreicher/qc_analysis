@@ -26,6 +26,6 @@ class GenerateData:
 
 
 #Set param value for integer L-value (angular momentum quantum number)
-def data(l):
+def data(l: int):
     return GenerateData(l).populate()
 
