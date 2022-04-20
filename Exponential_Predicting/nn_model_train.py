@@ -23,12 +23,12 @@ x_train, x_valid, y_train, y_valid = train_test_split(dataloader.drop(columns='c
                                                         test_size=0.2, random_state=0)
 
 # Initate model
-def load_model():
+def load_hyper_param_model():
     model = keras.models.Sequential()
-    model.add(keras.layers.Dense(1000, activation="relu"))
+    model.add(keras.layers.Dense(1, activation="relu"))
     model.add(keras.layers.Dense(300, activation="relu"))
     model.add(keras.layers.Dense(100, activation="relu"))
-    model.add(keras.layers.Dense(1))
+    model.add(keras.layers.Dense(7))
     # print(model.summary())
     # keras.utils.plot_model(model, "model_graph.png", show_shapes=True)
     return model
@@ -45,7 +45,7 @@ model.compile(loss="sparse_categorical_crossentropy",
             optimizer="sgd",
             metrics=[rmse])
 history = model.fit(x_train, y_train,
-        batch_size=128, epochs=30,
+        batch_size=30, epochs=30,
         verbose=1)
 
 
