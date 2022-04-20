@@ -1,6 +1,8 @@
 import numpy as np
+import tensorflow
+import keras
 from tensorflow.python.keras.layers import Input, Dense
-from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.models import Model, Sequential
 from sklearn.model_selection import train_test_split
 from generate_data import data
 
@@ -11,13 +13,16 @@ dataloader = data(l_val)
 drop_vals = np.arange(len(dataloader.columns)-1).tolist()
 x_train, x_valid, y_train, y_valid = train_test_split(dataloader.drop(columns = drop_vals).to_numpy(), 
                                                       dataloader.drop(columns='c').to_numpy(), test_size=0.2, random_state=0)
-input1 = Input(shape=(1,))
-l1 = Dense(10, activation='relu')(input1)
-l2 = Dense(50, activation='relu')(l1)
-l3 = Dense(50, activation='relu')(l2)
-out = Dense(l_val)(l3)
 
-model = Model(inputs=input1, outputs=[out])
+model = Sequential()
+model.add(Dense(1, activation="relu"))
+model.add(Dense(300, activation="relu"))
+model.add(Dense(100, activation="relu"))
+model.add(Dense(7))
+
+keras.backend.clear_session()
+np.random.seed(42)
+tensorflow.random.set_seed(42)
 model.compile(
     optimizer='adam',
     loss=['mean_squared_error']
