@@ -9,7 +9,6 @@ from keras import backend as K
 from sklearn.model_selection import train_test_split
 from generate_data import data
 
-# TODO: REGRESSION INSTEAD OF CLASSIFICATION
 
 # - Consider the exponential function f(x)=exp(-x/c), with x=0,1,2,….,L-1 integers
 # - Generate many training datasets {f(0,f(1),f(2),…f(L-1)} for different values of c
@@ -36,7 +35,7 @@ def load_hyper_param_model():
 def rmse(y_true, y_pred):
     return K.sqrt(K.mean(K.square(y_pred - y_true)))
 
-model = load_model()
+model = load_hyper_param_model()
 
 keras.backend.clear_session()
 np.random.seed(42)
