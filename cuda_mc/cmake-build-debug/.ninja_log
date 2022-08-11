@@ -1,0 +1,15 @@
+# ninja log v5
+0	994	1653607659095303735	CMakeFiles/CUDA_motecarlo.dir/monte_carlo_cpp/main.cpp.o	7b575dd532d06b3e
+997	1117	1653607659224336965	CUDA_motecarlo	f0ef25aff5455504
+1	593	1653607693160362062	CMakeFiles/CUDA_motecarlo.dir/monte_carlo_cpp/main.cpp.o	7b575dd532d06b3e
+593	650	1653607693221196644	CUDA_motecarlo	f0ef25aff5455504
+1	822	1653608952836606050	CMakeFiles/CUDA_motecarlo.dir/monte_carlo_cpp/main.cpp.o	7b575dd532d06b3e
+822	889	1653608952907293871	CUDA_motecarlo	f0ef25aff5455504
+1	675	1653609076644803269	CMakeFiles/CUDA_motecarlo.dir/monte_carlo_cpp/main.cpp.o	7b575dd532d06b3e
+676	749	1653609076721259068	CUDA_motecarlo	f0ef25aff5455504
+1	536	1653609177532370740	CMakeFiles/CUDA_motecarlo.dir/monte_carlo_cpp/main.cpp.o	7b575dd532d06b3e
+536	613	1653609177614119185	CUDA_motecarlo	f0ef25aff5455504
+2	1096	1653613431892101931	CMakeFiles/CUDA_motecarlo.dir/monte_carlo_cpp/main.cpp.o	7b575dd532d06b3e
+1096	1225	1653613432033652870	CUDA_motecarlo	f0ef25aff5455504
+1	587	1653613485972333160	CMakeFiles/CUDA_motecarlo.dir/monte_carlo_cpp/main.cpp.o	7b575dd532d06b3e
+587	642	1653613486029658036	CUDA_motecarlo	f0ef25aff5455504
